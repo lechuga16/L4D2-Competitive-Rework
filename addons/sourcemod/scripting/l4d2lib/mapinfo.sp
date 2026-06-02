@@ -39,7 +39,7 @@ void MapInfo_AskPluginLoad2()
 	CreateNative("L4D2_GetMapStartDistance", _native_GetMapStartDist); //never used
 	CreateNative("L4D2_GetMapStartExtraDistance", _native_GetMapStartExtraDist); //never used
 	CreateNative("L4D2_GetMapEndDistance", _native_GetMapEndDist); //never used
-	CreateNative("L4D2_GetMapValueInt", _native_GetMapValueInt); //scoremod2, eq2_scoremod, l4d2_horde_equaliser, witch_and_tankifier, l4d2_scoremod, l4d2_hybrid_scoremod_zone, l4d2_hybrid_scoremod
+	CreateNative("L4D2_GetMapValueInt", _native_GetMapValueInt); //scoremod2, eq2_scoremod, l4d2_horde_equaliser, witch_and_tankifier, l4d2_scoremod, l4d2_hybrid_scoremod
 	CreateNative("L4D2_GetMapValueFloat", _native_GetMapValueFloat); //never used
 	CreateNative("L4D2_GetMapValueVector", _native_GetMapValueVector); //never used
 	CreateNative("L4D2_GetMapValueString", _native_GetMapValueString); //never used

@@ -189,7 +189,7 @@ void FillReadyConfig()
 void FindScoreMod()
 {
 	bScoremod = LibraryExists("l4d2_scoremod");
-	bHybridScoremod = LibraryExists("l4d2_hybrid_scoremod") || LibraryExists("l4d2_hybrid_scoremod_zone");
+	bHybridScoremod = LibraryExists("l4d2_hybrid_scoremod");
 	bNextScoremod = LibraryExists("l4d2_health_temp_bonus");
 }
 
@@ -806,12 +806,12 @@ void FillScoreInfo(Panel hSpecHud)
 		{
 			if (bHybridScoremod)
 			{
-				int healthBonus	= SMPlus_GetHealthBonus(),	maxHealthBonus	= SMPlus_GetMaxHealthBonus();
-				int damageBonus	= SMPlus_GetDamageBonus(),	maxDamageBonus	= SMPlus_GetMaxDamageBonus();
-				int pillsBonus	= SMPlus_GetPillsBonus(),	maxPillsBonus	= SMPlus_GetMaxPillsBonus();
+				int healthBonus	= SMPlus_GetBonus(SMPlusBonusType_Health),	maxHealthBonus	= SMPlus_GetMaxBonus(SMPlusBonusType_Health);
+				int damageBonus	= SMPlus_GetBonus(SMPlusBonusType_Damage),	maxDamageBonus	= SMPlus_GetMaxBonus(SMPlusBonusType_Damage);
+				int pillsBonus	= SMPlus_GetBonus(SMPlusBonusType_Pills),	maxPillsBonus	= SMPlus_GetMaxBonus(SMPlusBonusType_Pills);
 				
-				int totalBonus		= healthBonus		+ damageBonus		+ pillsBonus;
-				int maxTotalBonus	= maxHealthBonus	+ maxDamageBonus	+ maxPillsBonus;
+				int totalBonus		= SMPlus_GetBonus(SMPlusBonusType_Total);
+				int maxTotalBonus	= SMPlus_GetMaxBonus(SMPlusBonusType_Total);
 				
 				DrawPanelText(hSpecHud, " ");
 				
