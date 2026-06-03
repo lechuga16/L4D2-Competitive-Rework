@@ -216,7 +216,13 @@ void BuildInfectedSnapshot(int client, InfectedSnapshot snap)
 	snap.victim = L4D2_GetSurvivorVictim(client);
 	snap.cooldown = 0;
 	snap.hasCooldown = false;
+	snap.className[0] = '\0';
 	
+	if (snap.zClass < L4D2ZombieClass_Smoker || snap.zClass > L4D2ZombieClass_Tank)
+	{
+		return;
+	}
+
 	strcopy(snap.className, sizeof(snap.className), L4D2_GetZombieClassname(snap.zClass));
 	
 	if (!snap.alive || snap.zClass == L4D2ZombieClass_Tank || snap.ghost)
@@ -308,6 +314,9 @@ bool BuildInfectedLine(InfectedSnapshot infected, int target, char[] line, int l
 		return false;
 
 	if (infected.zClass == L4D2ZombieClass_Tank)
+		return false;
+
+	if (infected.className[0] == '\0')
 		return false;
 
 	GetClientFixedName(infected.client, name, sizeof(name), true);
