@@ -175,7 +175,11 @@ void BuildWeaponSnapshot(int client, WeaponSnapshot snap)
 	snap.secondaryWep = GetPlayerWeaponSlot(client, L4DWeaponSlot_Secondary);
 	snap.activeWepId = IdentifyWeapon(snap.activeWep);
 	snap.primaryWepId = IdentifyWeapon(snap.primaryWep);
-	snap.dualWield = (snap.secondaryWep > 0 && view_as<bool>(GetEntProp(snap.secondaryWep, Prop_Send, "m_isDualWielding")));
+	snap.dualWield = false;
+	if (snap.secondaryWep > 0 && IdentifyWeapon(snap.secondaryWep) == WEPID_PISTOL)
+	{
+		snap.dualWield = view_as<bool>(GetEntProp(snap.secondaryWep, Prop_Send, "m_isDualWielding"));
+	}
 	snap.activeClip = (snap.activeWep > 0 ? GetEntProp(snap.activeWep, Prop_Send, "m_iClip1") : -1);
 	snap.primaryClip = (snap.primaryWep > 0 ? GetEntProp(snap.primaryWep, Prop_Send, "m_iClip1") : -1);
 	snap.primaryExtra = (snap.primaryWep > 0 ? L4D_GetReserveAmmo(client, snap.primaryWep) : -1);
@@ -560,6 +564,7 @@ bool FillScoreInfo(Panel hSpecHud, int target)
 			{
 				KeyValues snapshot = new KeyValues("scoremod_snapshot");
 				SMPlus_FillSnapshot(snapshot);
+				SMPlusMode scoreMode = SMPlus_GetMode();
 
 				int healthBonus = 0;
 				int maxHealthBonus = 0;
@@ -589,15 +594,22 @@ bool FillScoreInfo(Panel hSpecHud, int target)
 				}
 				
 				DrawPanelText(hSpecHud, " ");
-				
-				FormatEx(	line,
-							sizeof(line),
-							"%T",
-							"Spechud_HybridStats",
-							target,
-							PercentFloat(healthBonus, maxHealthBonus),
-							PercentFloat(damageBonus, maxDamageBonus),
-							pillsBonus, PercentFloat(pillsBonus, maxPillsBonus));
+
+				if (scoreMode == SMPlusMode_Legacy)
+				{
+					FormatEx(line, sizeof(line), "%T", "Spechud_HybridLegacyStats", target, PercentFloat(healthBonus, maxHealthBonus));
+				}
+				else
+				{
+					FormatEx(	line,
+								sizeof(line),
+								"%T",
+								"Spechud_HybridStats",
+								target,
+								PercentFloat(healthBonus, maxHealthBonus),
+								PercentFloat(damageBonus, maxDamageBonus),
+								pillsBonus, PercentFloat(pillsBonus, maxPillsBonus));
+				}
 				DrawPanelText(hSpecHud, line);
 				
 				FormatEx(line, sizeof(line), "%T", "Spechud_BonusValue", target, totalBonus, PercentFloat(totalBonus, maxTotalBonus));
