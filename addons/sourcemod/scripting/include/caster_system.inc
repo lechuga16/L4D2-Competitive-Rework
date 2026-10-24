@@ -4,6 +4,23 @@
 #define _caster_system_included
 
 /**
+ * AccountID API supplied by the L4D2-Competitive-Rework-Fix provider.
+ * The original caster_system.sp only implements the legacy natives below.
+ */
+enum CasterSystemAction
+{
+    CasterSystemAction_Get = 0,
+    CasterSystemAction_Set,
+    CasterSystemAction_Remove
+}
+
+/**
+ * Checks, adds or removes a Steam AccountID from the caster list.
+ * Requires the caster_system provider from L4D2-Competitive-Rework-Fix.
+ */
+native bool bCaster(int accountId, CasterSystemAction action);
+
+/**
  * If this in-game and fully connected client is a caster or not
  *
  * @return          True if this is a registered caster
@@ -50,6 +67,7 @@ public SharedPlugin __pl_caster_system =
 #if !defined REQUIRE_PLUGIN
 public void __pl_caster_system_SetNTVOptional()
 {
+	MarkNativeAsOptional("bCaster");
 	MarkNativeAsOptional("IsClientCaster");
 	MarkNativeAsOptional("IsIDCaster");
 }

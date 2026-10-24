@@ -55,6 +55,19 @@ In its current state it allows anyone to host their own up to date competitive L
 
 ---
 
+## **Caster API with the AoC override**
+
+The sources of `caster_assister`, `specrates` and `readyup` use the AccountID API:
+`bCaster(accountId, CasterSystemAction_Get)`. Their local `caster_system.inc`
+declares this API, so they can be compiled with this repository's includes.
+
+These rebuilt consumers require the `caster_system.smx` provider from
+`L4D2-Competitive-Rework-Fix` at runtime. The original `caster_system.sp` in this
+repository still implements the legacy API and does not supply `bCaster`.
+Use the override provider when using these migrated consumers.
+
+---
+
 ## **Credits:**
 
 > **Foundation/Advanced Work:**

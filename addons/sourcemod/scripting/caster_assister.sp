@@ -56,7 +56,18 @@ public void OnLibraryAdded(const char[] name)
 
 public void OnClientPutInServer(int client)
 {
-    if (readyUpIsAvailable && IsClientCaster(client))
+    if (!readyUpIsAvailable)
+    {
+        return;
+    }
+
+    int accountId = GetSteamAccountID(client);
+    if (accountId <= 0)
+    {
+        return;
+    }
+
+    if (bCaster(accountId, CasterSystemAction_Get))
     {
         FakeClientCommand(client, "sm_spechud");
     }
